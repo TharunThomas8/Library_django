@@ -9,6 +9,7 @@ class booklist(models.Model):
     author = models.CharField(max_length=200)
     category = models.CharField(max_length=200)
     section = models.CharField(max_length=200)
+    file = models.FileField()
     upload_date = models.DateTimeField(default=timezone.now())
 
     def __str__(self):

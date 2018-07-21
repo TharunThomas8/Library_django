@@ -6,9 +6,17 @@ from . import models
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
+from add_book.models import booklist
 
 
 # Create your views here.
+def list_book(request):
+    if request.user.is_authenticated:
+        book = booklist.objects.all()
+        return render(request, 'library/list.html',{'entry':book})
+    else:
+        return HttpResponse("you need to be an admin to view this")
+
 
 def sign_up(request):
     if request.user.is_authenticated:

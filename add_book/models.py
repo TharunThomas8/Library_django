@@ -14,3 +14,6 @@ class booklist(models.Model):
 
     def __str__(self):
         return self.title
+
+class massfile(models.Model):
+    file = models.FileField(upload_to='mass_upload/')

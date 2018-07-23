@@ -9,5 +9,8 @@ class BookForm(forms.ModelForm):
         fields = ('title', 'author', 'category', 'section','available','status','file')
 
 
-class ExampleForm(forms.Form):
-    field = forms.FileField(default='BLANK TEXT')
+class ExampleForm(forms.ModelForm):
+    
+    class Meta:
+        model = models.massfile
+        fields = ('file',)

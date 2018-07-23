@@ -12,18 +12,7 @@ def add_book(request):
 		if request.method == 'POST':
 			form = forms.BookForm(request.POST, request.FILES)
 			if form.is_valid():
-				# formed = {
-				# "title" : "zzz",
-				# "author" : "zzz",
-				# "category" : "zzz",
-				# "section" : "zzz",
-				# "available" : True,
-				# "status" : True,
-				# "file" : "BLANK TEXT"
-				# }
-				# print (formed)
-				# m = models.booklist(**formed)
-				forms.save()
+				form.save()
 				return HttpResponse("book saved")
 		else:
 			form = forms.BookForm()
@@ -41,17 +30,13 @@ def list_book(request):
 def enter_many(request):
 	if request.user.is_superuser:
 		if request.method == 'POST':
-			handle_uploaded_file(request.FILES['file'], str(request.FILES['file']))
-			return HttpResponse("Successful")
-
-		else:
-			form = ExampleForm()
-			return render(request, 'library/file.html', {'form': form})
-	else:
-		return HttpResponse("you need to be an admin to view this")
-
-def handle_uploaded_file(file, filename):
-	form = {
+			form = forms.ExampleForm( request.POST,request.FILES)
+			form.save()
+			name = request.FILES['file'].name
+			s = "/home/tta/Documents/lib_django/library/media/mass_upload/"+name
+			File_object = open(s,"r")
+			f = File_object.read()
+			format = {
 				"title" : "",
 				"author" : "",
 				"category" : "",
@@ -60,21 +45,40 @@ def handle_uploaded_file(file, filename):
 				"status" : True,
 				"file" : "BLANK TEXT"
 				}
-	for s in file.read().split(','):
-		for i in range(1,7):
-			if(i==1):
-				form["title"] = s
-			if(i==2):
-				form["author"] = s
-			if(i==3):
-				form["category"] = s
-			if(i==4):
-				form["section"] = s
-			if(i==5):
-				form["available"] = s
-			if(i==6):
-				form["status"] = s
-			if(i==7):
-				form["file"] = s
-				m = models.booklist(**form)
-				m.save()
+			print (f)
+			i=1
+			print (i)
+			for s in f.split(','):
+				print (i)
+				if(i==1):
+					format["title"] = s
+					i=i+1
+				elif(i==2):
+					format["author"] = s
+					i=i+1
+				elif(i==3):
+					format["category"] = s
+					i=i+1
+				elif(i==4):
+					format["section"] = s
+					i=i+1
+				elif(i==5):
+					format["available"] = s
+					i=i+1
+				elif(i==6):
+					format["status"] = s
+					i=i+1
+				else:
+					format["file"] = s
+					m = models.booklist(**format)
+					print (i)
+					m.save()
+					i=1
+			return HttpResponse("Success")
+
+		else:
+			form = forms.ExampleForm()
+			return render(request, 'library/file.html', {'form': form})
+	else:
+		return HttpResponse("you need to be an admin to view this")
+

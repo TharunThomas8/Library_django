@@ -6,6 +6,8 @@ class BookForm(forms.ModelForm):
 
     class Meta:
         model = models.booklist
-        fields = ('title', 'author', 'category', 'section','status','file')
+        fields = ('title', 'author', 'category', 'section','available','status','file')
 
 
+class ExampleForm(forms.Form):
+    field = forms.FileField(default='BLANK TEXT')

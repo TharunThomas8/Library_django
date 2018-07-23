@@ -40,7 +40,6 @@ def sign_up(request):
 
 def sign_in(request):
     if request.user.is_authenticated:
-        print ("here")
         return render(request, 'user_app/home.html')
     else:
         if request.method == 'POST':
@@ -60,3 +59,15 @@ def sign_in(request):
         else:
             return render(request, 'user_app/login.html', {'err': ''})
 
+def dnt_book(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = forms.BookForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return HttpResponse("book saved")
+        else:
+            form = forms.BookForm()
+        return render(request, 'user_app/input.html', {'form': form})
+    else:
+        return HttpResponse("you need to be a user ")

@@ -7,6 +7,7 @@ class booklist(models.Model):
     author = models.CharField(max_length=200)
     category = models.CharField(max_length=200)
     section = models.CharField(max_length=200)
+    available = models.BooleanField(default='True') 
     status = models.BooleanField(default='True')
     file = models.FileField( default='BLANK TEXT')
     upload_date = models.DateTimeField(default=timezone.now())

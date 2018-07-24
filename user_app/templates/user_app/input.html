@@ -6,7 +6,11 @@
     <div class="row" style="margin:20px;">
 <form method="post" enctype="multipart/form-data">
    {% csrf_token %}
-   {{ form.as_p }}
+   <h4>Title:</h5>{{ form.title }} <br>
+   <h4>Author:</h4>{{ form.author }}<br>
+   <h4>Category:</h4>{{ form.category }}<br>
+   <h4>Section:</h4>{{ form.section }} <br>
+   <h4>File(if any):</h4>{{ form.file }} <br>
    <button type="submit">Upload</button>
  </form>
 </div>

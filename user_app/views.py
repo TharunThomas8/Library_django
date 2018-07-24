@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from add_book.models import booklist
-
+from add_book.forms import BookForm
 
 # Create your views here.
 def list_book(request):
@@ -50,7 +50,6 @@ def sign_in(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    # Redirect to music list page.
                     return render(request, 'user_app/home.html')
                 else:
                     return render(request, 'user_app/login.html', {'err': 'Your account is banned'})
@@ -62,12 +61,14 @@ def sign_in(request):
 def dnt_book(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            form = forms.BookForm(request.POST, request.FILES)
+            form = BookForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
                 return HttpResponse("book saved")
+            else:
+                return HttpResponse(form.errors)
         else:
-            form = forms.BookForm()
+            form = BookForm()
         return render(request, 'user_app/input.html', {'form': form})
     else:
         return HttpResponse("you need to be a user ")
